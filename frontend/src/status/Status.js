@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -10,21 +11,13 @@ function Status(props) {
   async function getdata() {
       await sleep(2000);
 
-      // create a new XMLHttpRequest
-      var xhr = new XMLHttpRequest()
-
-      // get a callback when the server responds
-      xhr.addEventListener('load', () => {
-        // update the state of the component with the result here
-        console.log(xhr.responseText)
-        handleResponse()
-      })
-      // open the request with the verb and the url
-      xhr.withCredentials = false;
-      xhr.open('GET', 'http://localhost:3000/status')
-      xhr.setRequestHeader('Content-Type', 'application/json')
-      // send the request
-      xhr.send()
+      axios.get('http://fcm-subscriber0.dev-trans.rst.com.pl/status')
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
   }
 
   function handleResponse() {
