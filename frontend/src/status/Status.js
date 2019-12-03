@@ -9,9 +9,7 @@ function Status(props) {
   const [count, setCount] = useState(0);
 
   async function getdata() {
-      await sleep(2000);
-
-      axios.get('http://fcm-subscriber0.dev-trans.rst.com.pl/status')
+      axios.get('http://localhost:8080/status')
         .then(function (response) {
           console.log(response);
         })
