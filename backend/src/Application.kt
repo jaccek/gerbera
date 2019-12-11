@@ -1,7 +1,6 @@
 package com.github.jaccek
 
 import io.ktor.application.Application
-import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CORS
@@ -10,14 +9,10 @@ import io.ktor.gson.gson
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
-import io.ktor.response.respond
+import io.ktor.response.respondRedirect
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import kotlinx.css.*
-import kotlinx.html.CommonAttributeGroupFacade
-import kotlinx.html.FlowOrMetaDataContent
-import kotlinx.html.style
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -44,12 +39,11 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+            call.respondRedirect("http://localhost:3000", true)
         }
 
         get("/status") {
-            val url = "http://google.com"
-//            val url = "http://fcm-subscriber0.dev-trans.rst.com.pl/status"
+            val url = "http://fcm-subscriber0.dev-trans.rst.com.pl/status"
             URL(url).run {
                 openConnection().run {
                     this as HttpURLConnection
@@ -57,50 +51,6 @@ fun Application.module(testing: Boolean = false) {
                     call.respondText(text, ContentType.parse("application/json"))
                 }
             }
-//            call.respondRedirect("http://fcm-subscriber0.dev-trans.rst.com.pl/status")
-
-//            call.respondHtml {
-//                body {
-//                    h1 { +"HTML" }
-//                    ul {
-//                        for (n in 1..10) {
-//                            li { +"$n" }
-//                        }
-//                    }
-//                }
-//            }
-        }
-
-        get("/styles.css") {
-            call.respondCss {
-                body {
-                    backgroundColor = Color.red
-                }
-                p {
-                    fontSize = 2.em
-                }
-                rule("p.myclass") {
-                    color = Color.blue
-                }
-            }
-        }
-
-        get("/json/gson") {
-            call.respond(mapOf("hello" to "world"))
         }
     }
-}
-
-fun FlowOrMetaDataContent.styleCss(builder: CSSBuilder.() -> Unit) {
-    style(type = ContentType.Text.CSS.toString()) {
-        +CSSBuilder().apply(builder).toString()
-    }
-}
-
-fun CommonAttributeGroupFacade.style(builder: CSSBuilder.() -> Unit) {
-    this.style = CSSBuilder().apply(builder).toString().trim()
-}
-
-suspend inline fun ApplicationCall.respondCss(builder: CSSBuilder.() -> Unit) {
-    this.respondText(CSSBuilder().apply(builder).toString(), ContentType.Text.CSS)
 }
