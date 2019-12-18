@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './Status.css'
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -26,12 +27,10 @@ function Status(props) {
     getdata()
   }
   return (
-    <div className="status">
-        <h1>Status of {props.serviceName}</h1>
-        <p>It's working {count}</p>
-        <button onClick={() => setCount(count + 1)}>
-          Click me
-        </button>
+    <div className="Status">
+        <p className="Status-service">{props.serviceName}</p>
+        <p className="Status-environment">prod</p>
+        <p className="Status-version">v1.1.3</p>
     </div>
   );
 }

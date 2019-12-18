@@ -8,6 +8,13 @@ function App() {
     <div className="statuses">
         <Status serviceName="fcm-subscriber" />
         <Status serviceName="driver-tasks" />
+        <Status serviceName="driver-tasks" />
+        <Status serviceName="driver-tasks" />
+        <Status serviceName="driver-tasks" />
+        <Status serviceName="driver-tasks" />
+        <Status serviceName="driver-tasks" />
+        <Status serviceName="driver-tasks" />
+        <Status serviceName="driver-tasks" />
     </div>
   );
 }
