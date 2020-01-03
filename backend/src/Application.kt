@@ -1,5 +1,9 @@
 package com.github.jaccek
 
+import com.github.jaccek.entities.Environment
+import com.github.jaccek.entities.Service
+import com.github.jaccek.entities.Status
+import com.github.jaccek.statuspageadapters.DefaultStatusPageAdapter
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -9,6 +13,7 @@ import io.ktor.gson.gson
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
+import io.ktor.response.respond
 import io.ktor.response.respondRedirect
 import io.ktor.response.respondText
 import io.ktor.routing.get
@@ -34,8 +39,11 @@ fun Application.module(testing: Boolean = false) {
 
     install(ContentNegotiation) {
         gson {
+            setPrettyPrinting()
         }
     }
+
+    val statusPageAdapter = DefaultStatusPageAdapter()
 
     routing {
         get("/") {
@@ -43,14 +51,11 @@ fun Application.module(testing: Boolean = false) {
         }
 
         get("/status") {
-            val url = "http://fcm-subscriber0.dev-trans.rst.com.pl/status"
-            URL(url).run {
-                openConnection().run {
-                    this as HttpURLConnection
-                    val text = inputStream.bufferedReader().readText()
-                    call.respondText(text, ContentType.parse("application/json"))
-                }
-            }
+            val serviceStatus = statusPageAdapter.requestStatusPage("fcm-subscriber", URL("http://fcm-subscriber0.dev-trans.rst.com.pl/status"))
+            call.respond(listOf(
+                serviceStatus,
+                Service("fcm-subscriber", "unknown", Status.UP, Environment.PROD)
+            ))
         }
     }
 }
