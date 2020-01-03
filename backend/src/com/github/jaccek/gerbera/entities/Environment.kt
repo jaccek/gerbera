@@ -1,4 +1,4 @@
-package com.github.jaccek.entities
+package com.github.jaccek.gerbera.entities
 
 enum class Environment {
     DEV,

@@ -1,24 +1,21 @@
-package com.github.jaccek
+package com.github.jaccek.gerbera
 
-import com.github.jaccek.entities.Environment
-import com.github.jaccek.entities.Service
-import com.github.jaccek.entities.Status
-import com.github.jaccek.statuspageadapters.DefaultStatusPageAdapter
+import com.github.jaccek.gerbera.entities.Environment
+import com.github.jaccek.gerbera.entities.Service
+import com.github.jaccek.gerbera.entities.Status
+import com.github.jaccek.gerbera.statuspageadapters.DefaultStatusPageAdapter
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
-import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.response.respond
 import io.ktor.response.respondRedirect
-import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import java.net.HttpURLConnection
 import java.net.URL
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)

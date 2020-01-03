@@ -1,9 +1,9 @@
-package com.github.jaccek.statuspageadapters
+package com.github.jaccek.gerbera.statuspageadapters
 
-import com.github.jaccek.entities.Environment
-import com.github.jaccek.entities.Service
-import com.github.jaccek.entities.Status
-import com.github.jaccek.statuspageadapters.entities.DefaultStatusPage
+import com.github.jaccek.gerbera.entities.Environment
+import com.github.jaccek.gerbera.entities.Service
+import com.github.jaccek.gerbera.entities.Status
+import com.github.jaccek.gerbera.entities.DefaultStatusPage
 import com.google.gson.Gson
 import java.io.InputStreamReader
 import java.net.HttpURLConnection

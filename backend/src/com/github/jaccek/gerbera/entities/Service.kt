@@ -1,4 +1,4 @@
-package com.github.jaccek.entities
+package com.github.jaccek.gerbera.entities
 
 data class Service(
     private val name: String,
