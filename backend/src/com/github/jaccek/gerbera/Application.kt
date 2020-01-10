@@ -3,7 +3,8 @@ package com.github.jaccek.gerbera
 import com.github.jaccek.gerbera.entities.Environment
 import com.github.jaccek.gerbera.entities.Service
 import com.github.jaccek.gerbera.entities.Status
-import com.github.jaccek.gerbera.statuspageadapters.DefaultStatusPageAdapter
+import com.github.jaccek.gerbera.statuspage.ServiceEntry
+import com.github.jaccek.gerbera.statuspage.StatusFetcher
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -16,7 +17,6 @@ import io.ktor.response.respond
 import io.ktor.response.respondRedirect
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import java.net.URL
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -36,11 +36,10 @@ fun Application.module(testing: Boolean = false) {
 
     install(ContentNegotiation) {
         gson {
-            setPrettyPrinting()
         }
     }
 
-    val statusPageAdapter = DefaultStatusPageAdapter()
+    val statusFetcher = StatusFetcher()
 
     routing {
         get("/") {
@@ -48,7 +47,8 @@ fun Application.module(testing: Boolean = false) {
         }
 
         get("/status") {
-            val serviceStatus = statusPageAdapter.requestStatusPage("fcm-subscriber", URL("http://fcm-subscriber0.dev-trans.rst.com.pl/status"))
+            val entry = ServiceEntry("fcm-subscriber", "DEV", "http://fcm-subscriber0.dev-trans.rst.com.pl/status")
+            val serviceStatus = statusFetcher.fetchService(entry)
             call.respond(listOf(
                 serviceStatus,
                 Service("fcm-subscriber", "unknown", Status.UP, Environment.PROD)
