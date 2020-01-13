@@ -47,12 +47,48 @@ fun Application.module(testing: Boolean = false) {
         }
 
         get("/status") {
-            val entry = ServiceEntry("fcm-subscriber", "DEV", "http://fcm-subscriber0.dev-trans.rst.com.pl/status")
-            val serviceStatus = statusFetcher.fetchService(entry)
-            call.respond(listOf(
-                serviceStatus,
-                Service("fcm-subscriber", "unknown", Status.UP, Environment.PROD)
-            ))
+            val entries = listOf(
+                ServiceEntry("fcm-subscriber", "DEV", "http://fcm-subscriber0.dev-trans.rst.com.pl/status"),
+                ServiceEntry("driver-tasks", "DEV", "http://driver-tasks0.dev-trans.rst.com.pl/status"),
+                ServiceEntry("trans-task-gateway", "DEV", "http://trans-task-gateway0.dev-trans.rst.com.pl/status"),
+                ServiceEntry("driver-tasks", "RC", "http://driver-tasks0.rc-trans.rst.com.pl/status"),
+                ServiceEntry("trans-task-gateway", "RC", "http://trans-task-gateway0.rc-trans.rst.com.pl/status"),
+                ServiceEntry("fcm-subscriber", "RC", "http://fcm-subscriber0.rc-trans.rst.com.pl/status")
+            )
+            val serviceStatuses = entries.map { statusFetcher.fetchService(it) }
+//                listOf(
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.DOWN,
+//                        version = "unknown"
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.UP,
+//                        version = "unknown"
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.UP,
+//                        version = "unknown"
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.DOWN,
+//                        version = "unknown"
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.UP,
+//                        version = "unknown"
+//                    )
+//                )
+            call.respond(serviceStatuses)
         }
     }
 }

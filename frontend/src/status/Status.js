@@ -7,30 +7,12 @@ function sleep(ms) {
 }
 
 function Status(props) {
-  const [count, setCount] = useState(0);
 
-  async function getdata() {
-      axios.get('http://localhost:8080/status')
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-  }
-
-  function handleResponse() {
-    setCount(count + 1)
-  }
-
-  if (count === 0) {
-    getdata()
-  }
   return (
-    <div className="Status">
+    <div className={ (props.status.toLowerCase() === "up" ? "Status-up" : "Status-down") + " Status" }>
         <p className="Status-service">{props.serviceName}</p>
-        <p className="Status-environment">prod</p>
-        <p className="Status-version">v1.1.3</p>
+        <p className="Status-environment">{props.environment}</p>
+        <p className="Status-version">{props.version}</p>
     </div>
   );
 }

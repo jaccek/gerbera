@@ -7,7 +7,9 @@ import com.github.jaccek.gerbera.entities.Status
 class StatusFetcher {
 
     private val adaptersMap = mapOf(
-        "fcm-subscriber" to DefaultStatusPageParser()
+        "fcm-subscriber" to DefaultStatusPageParser(),
+        "driver-tasks" to DefaultStatusPageParser(),
+        "trans-task-gateway" to DefaultStatusPageParser()
     )
 
     private val requester = StatusPageRequester()
