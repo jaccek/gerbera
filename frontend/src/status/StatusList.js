@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Status.css'
 import Status from './Status'
@@ -10,7 +10,7 @@ function sleep(ms) {
 function StatusList(props) {
   const [response, setResponse] = useState(null);
 
-  async function getdata() {
+  async function getData() {
       axios.get('http://localhost:8080/status')
         .then(function (response) {
           console.log(response);
@@ -26,10 +26,18 @@ function StatusList(props) {
     setResponse(response)
   }
 
+  useEffect(() => {
+    if (response === null) {
+      getData()
+    }
+    const timer = setInterval(() => getData(), 5000)
+    return () => {
+      clearInterval(timer)
+    }
+  })
+
   var items = []
-  if (response === null) {
-    getdata()
-  } else {
+  if (response !== null) {
     response.data.forEach((status) => {
       items.push(<Status serviceName={status.name}
               environment={status.environment}
