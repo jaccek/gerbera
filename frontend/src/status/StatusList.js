@@ -26,29 +26,50 @@ function StatusList(props) {
     setResponse(response)
   }
 
+  function setColumnCount(count) {
+    let htmlStyles = window.getComputedStyle(document.querySelector("html"));
+    let rowNum = parseInt(htmlStyles.getPropertyValue("--colNum"));
+    document.documentElement.style.setProperty("--colNum", count);
+  }
+
   useEffect(() => {
     if (response === null) {
       getData()
     }
-    const timer = setInterval(() => getData(), 5000)
-    return () => {
-      clearInterval(timer)
-    }
+    // const timer = setInterval(() => getData(), 5000)
+    // return () => {
+    //   clearInterval(timer)
+    // }
   })
 
-  var items = []
+  var items = {}
   if (response !== null) {
     response.data.forEach((status) => {
-      items.push(<Status serviceName={status.name}
+      if (items[status.environment] == null) {
+        items[status.environment] = []
+      }
+      items[status.environment].push(<Status serviceName={status.name}
               environment={status.environment}
               version={status.version}
               status={status.status}/>)
     })
   }
 
+  var test = []
+  var keys = Object.keys(items)
+  setColumnCount(keys.length)
+  keys.forEach((key) => {
+    var value = items[key]
+    test.push(
+      <div className="StatusList-column">
+        {value}
+      </div>
+    )
+  });
+
   return (
-    <div className="statuses">
-      {items}
+    <div className="StatusList">
+      {test}
     </div>
   );
 }

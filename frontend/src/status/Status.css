@@ -1,7 +1,16 @@
-.statuses {
+:root {
+  --colNum: 4;
+}
+
+.StatusList {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: repeat(var(--colNum), auto);
   margin: 0px 10px 10px 0px;
+}
+
+.StatusList-column {
+  grid-template-columns: 100%;
+  /* display: grid; */
 }
 
 .Status {
@@ -10,6 +19,7 @@
   margin: 10px 0px 0px 10px;
   padding: 0px;
   border-radius: 10px;
+  overflow: auto;
 }
 
 .Status-up {
