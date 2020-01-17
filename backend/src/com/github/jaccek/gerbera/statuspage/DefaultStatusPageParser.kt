@@ -15,6 +15,6 @@ class DefaultStatusPageParser {
             name = entry.serviceName,
             version = body.healthConfig.version,
             status = body.status,
-            environment = Environment.valueOf(entry.environment))
+            environment = Environment.valueOf(entry.environment.toUpperCase())) // TODO: what if env is not found?
     }
 }

@@ -6,10 +6,14 @@ import com.github.jaccek.gerbera.entities.Status
 
 class StatusFetcher {
 
+    // TODO: configuration
     private val adaptersMap = mapOf(
-        "fcm-subscriber" to DefaultStatusPageParser(),
-        "driver-tasks" to DefaultStatusPageParser(),
-        "trans-task-gateway" to DefaultStatusPageParser()
+        "fcm-subscriber0" to DefaultStatusPageParser(),
+        "fcm-subscriber1" to DefaultStatusPageParser(),
+        "driver-tasks0" to DefaultStatusPageParser(),
+        "driver-tasks1" to DefaultStatusPageParser(),
+        "trans-task-gateway0" to DefaultStatusPageParser(),
+        "trans-task-gateway1" to DefaultStatusPageParser()
     )
 
     private val requester = StatusPageRequester()
@@ -25,7 +29,7 @@ class StatusFetcher {
     private fun createDownService(entry: ServiceEntry): Service =
         Service(
             name = entry.serviceName,
-            environment = Environment.valueOf(entry.environment),
+            environment = Environment.valueOf(entry.environment.toUpperCase()), // TODO: what if env is not found?
             status = Status.DOWN,
             version = "unknown"
         )

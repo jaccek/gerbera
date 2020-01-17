@@ -1,9 +1,6 @@
 package com.github.jaccek.gerbera
 
-import com.github.jaccek.gerbera.entities.Environment
-import com.github.jaccek.gerbera.entities.Service
-import com.github.jaccek.gerbera.entities.Status
-import com.github.jaccek.gerbera.statuspage.ServiceEntry
+import com.github.jaccek.gerbera.config.readConfig
 import com.github.jaccek.gerbera.statuspage.StatusFetcher
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -39,6 +36,8 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    val config = readConfig()
+
     val statusFetcher = StatusFetcher()
 
     routing {
@@ -47,47 +46,49 @@ fun Application.module(testing: Boolean = false) {
         }
 
         get("/status") {
-            val entries = listOf(
-                ServiceEntry("fcm-subscriber", "DEV", "http://fcm-subscriber0.dev-trans.rst.com.pl/status"),
-                ServiceEntry("driver-tasks", "DEV", "http://driver-tasks0.dev-trans.rst.com.pl/status"),
-                ServiceEntry("trans-task-gateway", "DEV", "http://trans-task-gateway0.dev-trans.rst.com.pl/status"),
-                ServiceEntry("driver-tasks", "RC", "http://driver-tasks0.rc-trans.rst.com.pl/status"),
-                ServiceEntry("trans-task-gateway", "RC", "http://trans-task-gateway0.rc-trans.rst.com.pl/status"),
-                ServiceEntry("fcm-subscriber", "RC", "http://fcm-subscriber0.rc-trans.rst.com.pl/status")
-            )
-//            val serviceStatuses = entries.map { statusFetcher.fetchService(it) }
-            val serviceStatuses = listOf(
-                    Service(
-                        name = "fcm-subscriber",
-                        environment = Environment.RC,
-                        status = Status.DOWN,
-                        version = "unknown"
-                    ),
-                    Service(
-                        name = "fcm-subscriber",
-                        environment = Environment.RC,
-                        status = Status.UP,
-                        version = "unknown"
-                    ),
-                    Service(
-                        name = "fcm-subscriber",
-                        environment = Environment.RC,
-                        status = Status.UP,
-                        version = "unknown"
-                    ),
-                    Service(
-                        name = "fcm-subscriber",
-                        environment = Environment.RC,
-                        status = Status.DOWN,
-                        version = "unknown"
-                    ),
-                    Service(
-                        name = "fcm-subscriber",
-                        environment = Environment.RC,
-                        status = Status.UP,
-                        version = "unknown"
-                    )
-                )
+            val entries = config.services
+//            val entries = listOf(
+//                ServiceEntry("fcm-subscriber", "DEV", "http://fcm-subscriber0.dev-trans.rst.com.pl/status"),
+//                ServiceEntry("driver-tasks", "DEV", "http://driver-tasks0.dev-trans.rst.com.pl/status"),
+//                ServiceEntry("trans-task-gateway", "DEV", "http://trans-task-gateway0.dev-trans.rst.com.pl/status"),
+//                ServiceEntry("driver-tasks", "RC", "http://driver-tasks0.rc-trans.rst.com.pl/status"),
+//                ServiceEntry("trans-task-gateway", "RC", "http://trans-task-gateway0.rc-trans.rst.com.pl/status"),
+//                ServiceEntry("fcm-subscriber", "RC", "http://fcm-subscriber0.rc-trans.rst.com.pl/status")
+//            )
+            val serviceStatuses = entries.map { statusFetcher.fetchService(it) }
+//            val random = Random()
+//            val serviceStatuses = listOf(
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.DOWN,
+//                        version = "unknown" + random.nextInt()
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.UP,
+//                        version = "unknown" + random.nextInt()
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.UP,
+//                        version = "unknown" + random.nextInt()
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.DOWN,
+//                        version = "unknown" + random.nextInt()
+//                    ),
+//                    Service(
+//                        name = "fcm-subscriber",
+//                        environment = Environment.RC,
+//                        status = Status.UP,
+//                        version = "unknown" + random.nextInt()
+//                    )
+//                )
             call.respond(serviceStatuses)
         }
     }
