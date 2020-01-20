@@ -47,14 +47,6 @@ fun Application.module(testing: Boolean = false) {
 
         get("/status") {
             val entries = config.services
-//            val entries = listOf(
-//                ServiceEntry("fcm-subscriber", "DEV", "http://fcm-subscriber0.dev-trans.rst.com.pl/status"),
-//                ServiceEntry("driver-tasks", "DEV", "http://driver-tasks0.dev-trans.rst.com.pl/status"),
-//                ServiceEntry("trans-task-gateway", "DEV", "http://trans-task-gateway0.dev-trans.rst.com.pl/status"),
-//                ServiceEntry("driver-tasks", "RC", "http://driver-tasks0.rc-trans.rst.com.pl/status"),
-//                ServiceEntry("trans-task-gateway", "RC", "http://trans-task-gateway0.rc-trans.rst.com.pl/status"),
-//                ServiceEntry("fcm-subscriber", "RC", "http://fcm-subscriber0.rc-trans.rst.com.pl/status")
-//            )
             val serviceStatuses = entries.map { statusFetcher.fetchService(it) }
 //            val random = Random()
 //            val serviceStatuses = listOf(

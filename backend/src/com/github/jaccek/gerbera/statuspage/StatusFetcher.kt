@@ -1,5 +1,6 @@
 package com.github.jaccek.gerbera.statuspage
 
+import com.github.jaccek.gerbera.config.entities.ServiceEntry
 import com.github.jaccek.gerbera.entities.Environment
 import com.github.jaccek.gerbera.entities.Service
 import com.github.jaccek.gerbera.entities.Status

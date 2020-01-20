@@ -1,5 +1,6 @@
 package com.github.jaccek.gerbera.statuspage
 
+import com.github.jaccek.gerbera.config.entities.ServiceEntry
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection

@@ -1,4 +1,4 @@
-package com.github.jaccek.gerbera.statuspage
+package com.github.jaccek.gerbera.config.entities
 
 import com.google.gson.annotations.SerializedName
 
@@ -9,5 +9,8 @@ data class ServiceEntry(
     val environment: String,
 
     @SerializedName("status_page_url")
-    val statusPageUrl: String
+    val statusPageUrl: String,
+
+    @SerializedName("status_parsing")
+    val statusParsing: StatusParsing? = null
 )
